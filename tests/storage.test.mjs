@@ -44,7 +44,7 @@ test("first save creates an immutable revision without mutating the seed",async(
  await api.saveCatalog(revision,1);
  assert.equal(store.files.has("lenta/catalog.json"),false);
  assert.equal((await api.readCatalog()).data.version,2);
- assert.deepEqual((await api.readCatalog()).data.stockOut["2026-11-12"],["pizza-01"]);
+ assert.deepEqual(Array.from((await api.readCatalog()).data.stockOut["2026-11-12"]),["pizza-01"]);
 });
 test("concurrent edits for same version do not overwrite a published revision",async()=>{
  const store=backend();const api=await store.ready;
