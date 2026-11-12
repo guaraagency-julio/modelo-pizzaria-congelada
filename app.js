@@ -224,25 +224,81 @@ function bind(){
  });
  els.form.addEventListener("submit",async e=>{
   e.preventDefault();
-  try{
-   const response=await fetch("/api/catalog",{cache:"no-store"});
-   if(response.ok){const latest=await response.json();if(Array.isArray(latest.products)&&latest.schedules)catalog=latest;}
-  }catch{}
-  const before=cart.length;
-  cleanCart();saveCart();renderCart();renderScheduleAndMenu();
-  if(cart.length!==before)return notify("O estoque mudou. Confira o carrinho atualizado antes de finalizar.");
-  if(!cart.length||!cartPeriod)return notify("Adicione uma pizza ao carrinho.");
-  const date=$("#c-date").value,r=rangeOf(cartPeriod.month,cartPeriod.week);
-  if(date<today()||date<r.start||date>r.end)return notify("Escolha uma data válida dentro da semana programada.");
-  if(cart.some(x=>soldOut(x.id,date)))return notify("Um sabor do carrinho está esgotado para essa data.");
+  // currentTarget só existe durante o dispatch síncrono do evento.
+  // Guardar a referência antes de consultar o estoque evita interromper o checkout.
   const form=e.currentTarget;
+  const button=form.querySelector(".checkout-button");
+  const fallback=$("#checkout-whatsapp-fallback");
+  const status=$("#checkout-status");
   if(!form.reportValidity())return;
-  const number=$("#c-phone").value.replace(/\D/g,"");
-  if(number.length<10||number.length>13)return notify("Confira o número de WhatsApp informado.");
-  const link=waHref(buildMessage(form));
-  const a=document.createElement("a");a.href=link;a.target="_blank";a.rel="noopener noreferrer";document.body.appendChild(a);a.click();a.remove();
-  notify("A mensagem foi preparada. Confira e envie pelo WhatsApp.");
- });
+  fallback.hidden=true;
+  fallback.removeAttribute("href");
+  status.textContent="Conferindo disponibilidade dos sabores...";
+  button.disabled=true;
+  button.innerHTML='Conferindo pedido <span>…</span>';
+  try{
+   try{
+    const response=await fetch("/api/catalog",{cache:"no-store"});
+    if(response.ok){
+     const latest=await response.json();
+     if(!Array.isArray(latest.products)||!latest.schedules)throw new Error("O catálogo retornou dados inválidos.");
+     catalog=latest;
+    }else if(location.hostname.endsWith("vercel.app")){
+     throw new Error("Não foi possível confirmar o estoque. Tente novamente.");
+    }
+   }catch(error){
+    // A vitrine estática do GitHub Pages não tem API; ela utiliza o catálogo demonstrativo.
+    if(location.hostname.endsWith("vercel.app"))throw error;
+   }
+   const before=cart.length;
+   cleanCart();
+   saveCart();
+   renderCart();
+   renderScheduleAndMenu();
+   if(cart.length!==before){
+    status.textContent="A disponibilidade mudou. Confira o carrinho atualizado antes de finalizar.";
+    notify(status.textContent);
+    return;
+   }
+   if(!cart.length||!cartPeriod){
+    status.textContent="Adicione uma pizza ao carrinho para continuar.";
+    notify(status.textContent);
+    return;
+   }
+   const date=$("#c-date").value;
+   if(!dateValid(date,cartPeriod.month,cartPeriod.week)){
+    status.textContent="Escolha uma data válida dentro da semana programada.";
+    notify(status.textContent);
+    return;
+   }
+   if(cart.some(x=>soldOut(x.id,date))){
+    status.textContent="Um dos sabores está esgotado nessa data. Ajuste o carrinho.";
+    notify(status.textContent);
+    return;
+   }
+   if(!form.reportValidity())return;
+   const number=$("#c-phone").value.replace(/\D/g,"");
+   if(number.length<10||number.length>13){
+    status.textContent="Confira o número de WhatsApp informado.";
+    notify(status.textContent);
+    return;
+   }
+   const link=waHref(buildMessage(form));
+   // O link fica disponível para um segundo toque caso o sistema operacional
+   // ou o navegador não conclua o redirecionamento automaticamente.
+   fallback.href=link;
+   fallback.hidden=false;
+   status.textContent="Pedido preparado! Abrindo o WhatsApp… Se não abrir, toque no link abaixo.";
+   button.innerHTML='Abrindo WhatsApp <span>↗</span>';
+   window.location.assign(link);
+  }catch(error){
+   status.textContent=error?.message||"Não conseguimos preparar seu pedido. Tente novamente.";
+   notify(status.textContent);
+  }finally{
+   button.disabled=false;
+   button.innerHTML='Finalizar no WhatsApp <span>↗</span>';
+  }
+ });;
 }
 async function init(){
  bind();
