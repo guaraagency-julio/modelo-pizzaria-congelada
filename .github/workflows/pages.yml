@@ -36,7 +36,7 @@ jobs:
       - name: Preparar arquivos públicos
         run: |
           mkdir -p _site/shared
-          cp index.html admin.html styles.css admin.css app.js admin.js favicon.svg _site/
+          cp index.html admin.html styles.css refresh.css admin.css app.js admin.js favicon.svg _site/
           cp shared/seed.js _site/shared/seed.js
           touch _site/.nojekyll
       - name: Empacotar para publicação
