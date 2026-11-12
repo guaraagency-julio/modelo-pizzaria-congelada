@@ -1,6 +1,6 @@
-# LENTA — Pizzas Artesanais Congeladas
+# Pronta Pizzaria — Pizzas Artesanais Congeladas
 
-Protótipo comercial de uma pizzaria artesanal fictícia, criado pela **Guará Agency**. Os produtos, preços, fotos e textos desta demonstração são ilustrativos.
+Protótipo comercial da marca fictícia Pronta Pizzaria, criado pela **Guará Agency**. Os produtos, preços, fotos e textos desta demonstração são ilustrativos.
 
 ## Links
 
@@ -107,3 +107,10 @@ A vitrine pede a data da encomenda. Sabores esgotados ficam bloqueados apenas pa
 - POST /api/admin?action=save: gravação autenticada.
 
 As fotos ficam no Vercel Blob privado e são disponibilizadas pela rota de imagem para uso como fotos públicas de produto.
+## Identidade visual atualizada
+
+- Marca fictícia: **Pronta Pizzaria**.
+- Tipografia inteiramente sem serifa (Nunito Sans): títulos arredondados, leitura confortável no celular e interface menos rígida.
+- Paleta creme, terracota, verde-oliva e marrom, com botões e cartões arredondados.
+- A vitrine, o carrinho, o WhatsApp e o painel mantêm os fluxos existentes. Dados e regras de estoque permanecem no mesmo armazenamento privado.
+- A apresentação converte os nomes de demonstração anteriores (LENTA ou PIZZA TOP) para Pronta Pizzaria sem alterar sabores, preços ou semanas cadastradas. A próxima publicação administrativa consolida o novo nome no catálogo.
