@@ -162,7 +162,7 @@ function waHref(text){
 }
 function buildMessage(form){
  const lines=[
-  "Olá! Quero fazer uma encomenda de pizzas congeladas da "+(catalog.settings.brand||"LENTA")+".",
+  "Olá! Quero fazer uma encomenda de pizzas congeladas da "+(catalog.settings.brand||"Pronta Pizzaria")+".",
   "", "🍕 *MEU PEDIDO*",
   "Programação: "+weekCaption(cartPeriod.month,cartPeriod.week)+" ("+formatMonth(cartPeriod.month)+")",
   ""
