@@ -26,6 +26,8 @@ jobs:
           node --check shared/seed.js
           node --check app.js
           node --check admin.js
+          node --check api/photo.js
+          node --check api/upload.js
           node --check api/catalog.js
           node --check api/admin.js
           node --check lib/storage.js
