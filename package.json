@@ -1,0 +1,16 @@
+{
+  "name": "lenta-pizzaria-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Guará Agency - site de pizza congelada com encomendas e programação",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.0.0"
+  },
+  "scripts": {
+    "check": "node --check app.js && node --check admin.js && node --check api/admin.js && node --check api/catalog.js && node --check lib/storage.js"
+  }
+}
