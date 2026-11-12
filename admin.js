@@ -143,7 +143,7 @@ function renderAll(){
  if(!catalog)return;
  $("#dashboard").hidden=false;$("#login-area").hidden=true;$("#logout").hidden=false;
  const now=new Date(),key=now.getFullYear()+"-"+pad(now.getMonth()+1);
- selectedMonth=Object.keys(catalog.schedules).includes(key)?key:Object.keys(catalog.schedules).sort().at(-1);
+ selectedMonth=Object.keys(catalog.schedules).includes(selectedMonth)?selectedMonth:(Object.keys(catalog.schedules).includes(key)?key:Object.keys(catalog.schedules).sort().at(-1));
  $("#admin-month").value=selectedMonth;
  renderSchedule();renderProducts();settingsToForm();
  if(catalog.products.length)editProduct(catalog.products[0].id);
