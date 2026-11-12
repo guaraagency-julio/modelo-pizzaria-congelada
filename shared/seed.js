@@ -51,6 +51,7 @@ export const SEED = {
   name:r[0], description:r[1], price:r[2], category:r[3],
   image:photos[r[4]], tag:r[5], active:true
  })),
+ stockOut: {},
  schedules: {
   "2026-11":[["pizza-01","pizza-02","pizza-03","pizza-04"],["pizza-05","pizza-06","pizza-07","pizza-08"],["pizza-09","pizza-10","pizza-11","pizza-12"],["pizza-13","pizza-14","pizza-15","pizza-16"]],
   "2026-12":[["pizza-17","pizza-18","pizza-19","pizza-20"],["pizza-01","pizza-06","pizza-09","pizza-11"],["pizza-02","pizza-05","pizza-13","pizza-16"],["pizza-03","pizza-07","pizza-12","pizza-15"]],
