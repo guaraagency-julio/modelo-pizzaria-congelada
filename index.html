@@ -74,6 +74,8 @@
     <label>Observações <textarea id="c-notes" rows="2" maxlength="300" placeholder="Alguma orientação para o pedido?"></textarea></label>
     <div class="summary-total"><span>Subtotal dos produtos</span><strong id="cart-subtotal">R$ 0,00</strong></div><p class="checkout-note">Pedido sujeito à confirmação da pizzaria. Taxa de entrega e pagamento serão combinados no WhatsApp.</p>
     <button type="submit" class="btn btn-dark checkout-button">Finalizar no WhatsApp <span>↗</span></button>
+    <p id="checkout-status" class="checkout-status" role="status" aria-live="polite"></p>
+    <a id="checkout-whatsapp-fallback" class="checkout-fallback" href="#" target="_self" hidden>↗ Abrir meu pedido no WhatsApp</a>
   </form></div>
  </aside>
  <div id="toast" class="toast" role="status" aria-live="polite"></div>
