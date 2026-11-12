@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" rx="18" fill="#27392c"/><text x="40" y="58" text-anchor="middle" font-size="59" font-family="Georgia,serif" fill="#f5f1e9">✳</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-label="Pronta Pizzaria">
+ <rect width="80" height="80" rx="22" fill="#d66439"/>
+ <path d="M18 22C34 10 51 12 64 23L42 65Z" fill="#ffe1b0" stroke="#853e2b" stroke-width="3" stroke-linejoin="round"/>
+ <path d="M18 22C33 12 50 12 64 23" fill="none" stroke="#f9f4d8" stroke-width="10" stroke-linecap="round"/>
+ <circle cx="34" cy="32" r="6" fill="#bd533c"/>
+ <circle cx="50" cy="33" r="6" fill="#bd533c"/>
+ <circle cx="43" cy="47" r="5" fill="#bd533c"/>
+ <path d="M35 46c2-6 7-7 11-4-2 5-5 8-11 4Z" fill="#5d7b45"/>
+</svg>
