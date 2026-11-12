@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="pt-BR"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f5f1e9"><title>Painel | LENTA</title>
+<meta name="theme-color" content="#fff8f0"><title>Painel | Pronta Pizzaria</title>
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./admin.css"><script src="./admin.js" type="module"></script></head>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./refresh.css"><link rel="stylesheet" href="./admin.css"><script src="./admin.js" type="module"></script></head>
 <body class="admin-body">
-<header class="admin-header"><div class="admin-shell"><a class="brand" href="./"><span class="brand-icon">✳</span><span class="brand-name">lenta<span class="brand-period">.</span></span></a><div class="admin-head-right"><span class="admin-head-label">CENTRAL DE GESTÃO</span><a href="./" target="_blank" rel="noopener" class="admin-view">Ver site ↗</a><button id="logout" class="admin-logout" hidden>Sair</button></div></div></header>
+<header class="admin-header"><div class="admin-shell"><a class="brand" href="./"><span class="brand-icon">✳</span><span class="brand-name">Pronta<small>PIZZARIA</small></span></a><div class="admin-head-right"><span class="admin-head-label">CENTRAL DE GESTÃO</span><a href="./" target="_blank" rel="noopener" class="admin-view">Ver site ↗</a><button id="logout" class="admin-logout" hidden>Sair</button></div></div></header>
 <main class="admin-shell">
-<section id="login-area" class="login-layout"><div class="login-aside"><span class="eyebrow">LENTA / ADMINISTRAÇÃO</span><h1>Seus sabores.<br><em>Sua programação.</em></h1><p>Gerencie seu catálogo, escolha os sabores de cada semana e publique tudo no site em poucos cliques.</p><div class="login-decor">✳</div></div><form class="login-card" id="login-form"><div class="eyebrow eyebrow-green">ACESSO RESTRITO</div><h2>Entrar no painel</h2><p>Use a senha de administrador definida para este projeto.</p><label>Senha de acesso<input id="login-password" type="password" autocomplete="current-password" placeholder="Sua senha" required></label><button type="submit" class="btn btn-dark">Entrar <span>↗</span></button><div class="admin-message" id="login-message" role="alert"></div></form></section>
+<section id="login-area" class="login-layout"><div class="login-aside"><span class="eyebrow">PRONTA PIZZARIA / ADMINISTRAÇÃO</span><h1>Seus sabores.<br><em>Sua programação.</em></h1><p>Gerencie seu catálogo, escolha os sabores de cada semana e publique tudo no site em poucos cliques.</p><div class="login-decor">✳</div></div><form class="login-card" id="login-form"><div class="eyebrow eyebrow-green">ACESSO RESTRITO</div><h2>Entrar no painel</h2><p>Use a senha de administrador definida para este projeto.</p><label>Senha de acesso<input id="login-password" type="password" autocomplete="current-password" placeholder="Sua senha" required></label><button type="submit" class="btn btn-dark">Entrar <span>↗</span></button><div class="admin-message" id="login-message" role="alert"></div></form></section>
 <section id="dashboard" hidden>
  <div class="dashboard-title"><div><span class="eyebrow eyebrow-green">VISÃO GERAL / PAINEL DE CONTROLE</span><h1>Programe <em>seus próximos meses.</em></h1><p>Edite os sabores e monte a vitrine que seus clientes verão.</p></div><div><button id="save-all" class="btn btn-dark">Publicar alterações <span>↗</span></button><div class="save-state" id="save-state">Programação carregada</div></div></div>
  <div class="stats" id="stats"></div>
