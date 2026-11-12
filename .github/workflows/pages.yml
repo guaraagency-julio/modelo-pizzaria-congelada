@@ -21,6 +21,14 @@ jobs:
         uses: actions/checkout@v4
       - name: Configurar Pages
         uses: actions/configure-pages@v5
+      - name: Validar sintaxe JavaScript
+        run: |
+          node --check shared/seed.js
+          node --check app.js
+          node --check admin.js
+          node --check api/catalog.js
+          node --check api/admin.js
+          node --check lib/storage.js
       - name: Preparar arquivos públicos
         run: |
           mkdir -p _site/shared
