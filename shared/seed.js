@@ -36,13 +36,13 @@ export const SEED = {
  demo: true,
  updatedAt: "2026-11-12T12:00:00-03:00",
  settings: {
-  brand: "LENTA",
+  brand: "Pronta Pizzaria",
   subtitle: "Pizzas artesanais congeladas",
   whatsapp: "5551991825024",
   instagram: "",
   city: "Novo Hamburgo · RS",
-  headline: "Uma boa pizza merece o seu tempo.",
-  description: "Massa de longa fermentação, ingredientes escolhidos com cuidado e a última etapa feita no seu forno, na hora que você quiser.",
+  headline: "Sua pizza favorita, quentinha no seu forno.",
+  description: "Pizzas artesanais congeladas, com ingredientes selecionados e todo o sabor de uma pizza feita com carinho. Você escolhe a hora de assar e aproveitar.",
   deliveryNote: "Consulte disponibilidade, taxa de entrega e horário pelo WhatsApp.",
   pickupNote: "Endereço de retirada informado na confirmação do pedido."
  },
