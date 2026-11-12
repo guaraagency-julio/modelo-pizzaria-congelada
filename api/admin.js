@@ -55,7 +55,7 @@ export default async function handler(req,res){
  if(action!=="save")return res.status(400).json({error:"Ação inválida"});
  try{
   if(!body.catalog||JSON.stringify(body.catalog).length>280000)return res.status(413).json({error:"Catálogo muito grande"});
-  const {data,etag,persistent}=await readCatalog();
+  const {data,persistent}=await readCatalog();
   if(!persistent)return res.status(503).json({error:"Armazenamento persistente ainda não configurado."});
   if(body.version!==data.version)return res.status(409).json({error:"Outra edição foi publicada. Atualize e tente novamente."});
   const next=body.catalog;
@@ -63,7 +63,7 @@ export default async function handler(req,res){
   next.version=data.version+1;
   next.demo=true;
   next.updatedAt=new Date().toISOString();
-  await saveCatalog(next,etag);
+  await saveCatalog(next,body.version);
   return res.status(200).json({ok:true,catalog:next});
  }catch(error){
   console.error("admin_save_failed",error?.message);
