@@ -67,3 +67,43 @@ Sem variáveis de ambiente e Blob, a vitrine pode exibir os dados de demonstraç
 6. Conferir o cardápio público na vitrine.
 
 Mantido pela Guará Agency.
+
+## Atualização — cadastro mobile e disponibilidade por dia
+
+### Cadastro de sabor por smartphone
+
+1. Abra /admin.html e faça login.
+2. Toque em + Cadastrar sabor.
+3. Escolha Galeria ou Tirar foto (câmera traseira, quando disponível no navegador).
+4. Confira a prévia, informe nome, ingredientes, preço e categoria.
+5. Toque em Cadastrar e publicar sabor; a imagem é convertida em JPEG otimizado antes do envio.
+6. Selecione o novo sabor em uma semana da programação para exibi-lo na loja.
+
+A edição tradicional na biblioteca também ganhou botões de galeria e câmera, mantendo a opção de URL HTTPS.
+
+### Planejamento de vários meses
+
+- Setas junto ao mês navegam entre meses e anos e permitem criar a programação desejada.
+- O botão Programar 12 meses preenche o mês selecionado e os 11 seguintes com quatro sabores por semana.
+- Revise a seleção automática e publique quando estiver correta.
+- O protótipo suporta até 60 meses programados e até 300 sabores cadastrados.
+
+### Marcar sabores como esgotados
+
+1. Na aba Estoque por dia, selecione o mês e a semana.
+2. Escolha um ou vários dias e os sabores afetados.
+3. Marque como esgotado ou volte a disponibilizar.
+4. Clique em Publicar alterações.
+
+A vitrine pede a data da encomenda. Sabores esgotados ficam bloqueados apenas para as datas marcadas. O carrinho verifica novamente a programação antes de abrir o WhatsApp.
+
+**Limite:** a integração com WhatsApp não reduz automaticamente unidades em estoque. O proprietário marca os dias esgotados e confirma os pedidos pelo atendimento. Estoque quantitativo em tempo real requer backend transacional e processamento de pedidos.
+
+### Rotas e armazenamento
+
+- POST /api/upload: envio JPEG otimizado com sessão administrativa.
+- GET /api/photo?id=...: imagem pública apresentada no cardápio.
+- GET /api/catalog: catálogo com estoque diário e programação.
+- POST /api/admin?action=save: gravação autenticada.
+
+As fotos ficam no Vercel Blob privado e são disponibilizadas pela rota de imagem para uso como fotos públicas de produto.
