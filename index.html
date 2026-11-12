@@ -3,21 +3,22 @@
 <head>
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
- <meta name="theme-color" content="#f5f1e9">
- <meta name="description" content="LENTA | Demonstração de uma pizzaria artesanal congelada com sabores da semana, programação e pedidos pelo WhatsApp.">
- <title>LENTA — Pizza artesanal no seu tempo</title>
+ <meta name="theme-color" content="#fff7ee">
+ <meta name="description" content="Pronta Pizzaria | Pizzas artesanais congeladas, sabores da semana e encomendas pelo WhatsApp.">
+ <title>Pronta Pizzaria | Pizzas artesanais para assar em casa</title>
  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
  <link rel="preconnect" href="https://fonts.googleapis.com">
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,700;1,6..12,800&display=swap" rel="stylesheet">
  <link rel="stylesheet" href="./styles.css">
+ <link rel="stylesheet" href="./refresh.css">
  <script src="./app.js" type="module"></script>
 </head>
 <body>
- <div class="preview-ribbon"><span>MODELO DE DEMONSTRAÇÃO · GUARÁ AGENCY</span><span>Marca, fotos, preços e produtos ilustrativos</span></div>
+ <div class="preview-ribbon"><span>DEMONSTRAÇÃO · GUARÁ AGENCY</span><span>Marca, fotos, preços e produtos ilustrativos</span></div>
  <header class="site-header" id="top">
   <div class="header-inner shell">
-   <a class="brand" href="#top" aria-label="LENTA, voltar ao início"><span class="brand-icon">✳</span><span class="brand-name">lenta<span class="brand-period">.</span></span></a>
+   <a class="brand" href="#top" aria-label="Pronta Pizzaria, voltar ao início"><span class="brand-icon" aria-hidden="true">✳</span><span class="brand-name">Pronta<small>PIZZARIA</small></span></a>
    <nav class="main-nav" aria-label="Menu principal">
     <a href="#cardapio">Cardápio</a><a href="#programacao">Programação</a><a href="#como-funciona">Como preparar</a><a href="#sobre">Nossa história</a>
    </nav>
@@ -27,39 +28,39 @@
  <main>
   <section class="hero shell">
    <div class="hero-text">
-    <div class="eyebrow"><span class="dot"></span> FEITA COM CALMA. FINALIZADA EM CASA.</div>
-    <h1>O sabor de uma <em>boa pizza,</em><br>no seu tempo.</h1>
+    <div class="eyebrow"><span class="dot"></span> PIZZA ARTESANAL PARA ASSAR EM CASA</div>
+    <h1>Sua pizza favorita, <em>quentinha no seu forno.</em></h1>
     <p id="hero-description">Massa de longa fermentação, ingredientes escolhidos com cuidado e a última etapa feita no seu forno, na hora que você quiser.</p>
-    <div class="hero-actions"><a class="btn btn-dark" href="#cardapio">Escolher minhas pizzas <span>↗</span></a><a class="text-link" href="#como-funciona">Entenda como funciona <span>↗</span></a></div>
-    <div class="hero-bottom"><div class="avatar-dots"><i>✳</i><i>✳</i><i>✳</i></div><p><strong>Congelada no ponto certo.</strong><br>Pronta quando você decidir.</p></div>
+    <div class="hero-actions"><a class="btn btn-dark" href="#cardapio">Ver sabores da semana <span>↗</span></a><a class="text-link" href="#como-funciona">Como funciona <span>↗</span></a></div>
+    <div class="hero-bottom"><div class="avatar-dots"><i>✳</i><i>✳</i><i>✳</i></div><p><strong>Pronta para o seu forno.</strong><br>Você escolhe quando preparar.</p></div>
    </div>
-   <div class="hero-image"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1500&q=88&fit=crop" alt="Pizza artesanal com manjericão" fetchpriority="high"><div class="hero-image-label">O ritual começa aqui <span>↗</span></div><div class="hero-stamp"><span>FEITAS À MÃO</span><strong>✳</strong><span>PRA ASSAR EM CASA</span></div></div>
+   <div class="hero-image"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1500&q=88&fit=crop" alt="Pizza artesanal com manjericão" fetchpriority="high"><div class="hero-image-label">Uma pizza, muitos momentos <span>↗</span></div><div class="hero-stamp"><span>FEITAS COM CARINHO</span><strong>✳</strong><span>PRA ASSAR EM CASA</span></div></div>
   </section>
   <div class="marquee"><div class="marquee-track">LONGA FERMENTAÇÃO <span>✳</span> INGREDIENTES SELECIONADOS <span>✳</span> DO NOSSO FORNO AO SEU <span>✳</span> LONGA FERMENTAÇÃO <span>✳</span> INGREDIENTES SELECIONADOS <span>✳</span> DO NOSSO FORNO AO SEU <span>✳</span></div></div>
   <section id="cardapio" class="menu-section shell section-pad">
-   <div class="section-heading"><div><div class="eyebrow eyebrow-green">01 / ENCONTRE SEU SABOR</div><h2>As escolhidas <em>da semana.</em></h2><p>Uma seleção especial que muda toda semana. Escolha a sua e deixe o forno por nossa conta até chegar à sua casa.</p></div><div class="week-select-wrap"><label for="select-month">PROGRAMAÇÃO DE</label><select id="select-month" aria-label="Mês da programação"></select></div></div>
+   <div class="section-heading"><div><div class="eyebrow eyebrow-green">ESCOLHA SUA FAVORITA</div><h2>Os sabores <em>da semana.</em></h2><p>A cada semana, quatro sabores artesanais para escolher. Encomende o seu e prepare no conforto de casa.</p></div><div class="week-select-wrap"><label for="select-month">PROGRAMAÇÃO DE</label><select id="select-month" aria-label="Mês da programação"></select></div></div>
    <div class="week-tabs" id="week-tabs" aria-label="Selecione a semana"></div>
    <div class="shop-date-row"><div><strong>Escolha o dia da encomenda</strong><span>Confira a disponibilidade de cada sabor para essa data.</span></div><input type="date" id="shop-date" aria-label="Data desejada para encomendar"><span id="shop-stock-note" aria-live="polite">Disponibilidade do dia</span></div>
-   <div class="menu-meta"><div id="menu-period">Carregando sabores...</div><span>4 sabores em destaque por semana</span></div>
+   <div class="menu-meta"><div id="menu-period">Carregando sabores...</div><span>4 sabores especiais por semana</span></div>
    <div id="product-grid" class="product-grid"></div>
    <div id="no-products" class="empty-state" hidden>Essa semana ainda não tem sabores programados. Confira a programação dos próximos períodos.</div>
    <div class="menu-remark"><span>✳</span><p>As pizzas são entregues congeladas. Disponibilidade, prazo e frete são confirmados pela equipe no WhatsApp.</p></div>
   </section>
   <section id="programacao" class="schedule-section">
-   <div class="shell section-pad"><div class="section-heading light"><div><div class="eyebrow">02 / SEU PRÓXIMO PEDIDO</div><h2>Tem coisa boa <em>no calendário.</em></h2><p>Já sabe quando vai querer pizza? Antecipe sua escolha com a programação do mês.</p></div></div>
+   <div class="shell section-pad"><div class="section-heading light"><div><div class="eyebrow">PLANEJE O SEU PEDIDO</div><h2>Sua próxima pizza <em>já tem data.</em></h2><p>Já sabe quando vai querer pizza? Antecipe sua escolha com a programação do mês.</p></div></div>
    <div id="schedule-grid" class="schedule-grid"></div>
    <div class="schedule-foot"><span>✳</span><span>Programação sujeita à confirmação da produção.</span></div>
    </div>
   </section>
   <section id="como-funciona" class="how-section shell section-pad">
     <div class="how-image"><img loading="lazy" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&q=82&fit=crop" alt="Pizza sendo preparada"></div>
-    <div class="how-info"><div class="eyebrow eyebrow-green">03 / FÁCIL DE PREPARAR</div><h2>Do freezer<br><em>para a mesa.</em></h2><p>Você escolhe quando quer comer. Nós cuidamos da massa e da montagem para você finalizar em casa.</p><div class="steps"><div><span>01</span><div><strong>Escolha seus sabores</strong><p>Confira os quatro sabores disponíveis da semana e faça sua encomenda.</p></div></div><div><span>02</span><div><strong>Receba e conserve</strong><p>Mantenha a pizza congelada conforme as orientações da embalagem.</p></div></div><div><span>03</span><div><strong>Asse e aproveite</strong><p>Siga as instruções de temperatura e tempo informadas pela pizzaria.</p></div></div></div><a class="btn btn-outline" href="#cardapio">Ver os sabores <span>↗</span></a></div>
+    <div class="how-info"><div class="eyebrow eyebrow-green">É FÁCIL E GOSTOSO</div><h2>Do freezer <em>para o forno.</em></h2><p>Você escolhe quando quer comer. Nós cuidamos da massa e da montagem para você finalizar em casa.</p><div class="steps"><div><span>01</span><div><strong>Escolha seus sabores</strong><p>Confira os quatro sabores disponíveis da semana e faça sua encomenda.</p></div></div><div><span>02</span><div><strong>Receba e conserve</strong><p>Mantenha a pizza congelada conforme as orientações da embalagem.</p></div></div><div><span>03</span><div><strong>Asse e aproveite</strong><p>Siga as instruções de temperatura e tempo informadas pela pizzaria.</p></div></div></div><a class="btn btn-outline" href="#cardapio">Ver os sabores <span>↗</span></a></div>
   </section>
-  <section id="sobre" class="story-section"><div class="shell story-inner"><div><div class="eyebrow">04 / NOSSA IDEIA</div><h2>Artesanal em cada etapa.<br><em>Simples na sua rotina.</em></h2></div><div><p>A LENTA é uma marca fictícia criada para demonstrar como uma pizzaria de pizzas congeladas pode apresentar seus produtos e receber encomendas online.</p><p>No projeto real, este espaço contará a história do produtor, o processo de fermentação, a seleção de ingredientes e os diferenciais da empresa.</p><a class="text-link" href="#cardapio">Conhecer o cardápio <span>↗</span></a></div></div></section>
-  <section class="faq shell section-pad"><div><div class="eyebrow eyebrow-green">DÚVIDAS FREQUENTES</div><h2>Antes de <em>pedir.</em></h2></div><div class="faq-list"><details><summary>As pizzas já chegam assadas? <span>+</span></summary><p>O produto demonstrado é uma pizza artesanal congelada para finalizar no forno de casa. As instruções exatas devem ser confirmadas com a empresa.</p></details><details><summary>Posso reservar sabores das próximas semanas? <span>+</span></summary><p>Sim. Selecione a semana desejada no cardápio e informe a data no carrinho. A empresa confirma pelo WhatsApp a disponibilidade e o prazo.</p></details><details><summary>Posso encomendar vários sabores? <span>+</span></summary><p>Sim. Você pode adicionar várias unidades ao carrinho dentro da mesma semana de produção.</p></details><details><summary>Como funciona pagamento e entrega? <span>+</span></summary><p>A forma de pagamento, a disponibilidade da data escolhida e eventual taxa de entrega são confirmadas diretamente no WhatsApp.</p></details></div></section>
-  <div class="cta-strip"><div class="shell"><div><span>✳ SABORES NOVOS TODA SEMANA</span><h2>Escolha agora.<br><em>Asse quando quiser.</em></h2></div><a class="btn btn-cream" href="#cardapio">Montar meu pedido <span>↗</span></a></div></div>
+  <section id="sobre" class="story-section"><div class="shell story-inner"><div><div class="eyebrow">CONHEÇA A PROPOSTA</div><h2>Pizza artesanal para <em>todo momento.</em></h2></div><div><p>A Pronta Pizzaria é uma marca fictícia criada pela Guará Agency para apresentar um jeito prático de encomendar pizzas artesanais congeladas.</p><p>No projeto real, este espaço contará a história do produtor, o processo de fermentação, a seleção de ingredientes e os diferenciais da empresa.</p><a class="text-link" href="#cardapio">Conhecer o cardápio <span>↗</span></a></div></div></section>
+  <section class="faq shell section-pad"><div><div class="eyebrow eyebrow-green">DÚVIDAS FREQUENTES</div><h2>Perguntas <em>frequentes.</em></h2></div><div class="faq-list"><details><summary>As pizzas já chegam assadas? <span>+</span></summary><p>O produto demonstrado é uma pizza artesanal congelada para finalizar no forno de casa. As instruções exatas devem ser confirmadas com a empresa.</p></details><details><summary>Posso reservar sabores das próximas semanas? <span>+</span></summary><p>Sim. Selecione a semana desejada no cardápio e informe a data no carrinho. A empresa confirma pelo WhatsApp a disponibilidade e o prazo.</p></details><details><summary>Posso encomendar vários sabores? <span>+</span></summary><p>Sim. Você pode adicionar várias unidades ao carrinho dentro da mesma semana de produção.</p></details><details><summary>Como funciona pagamento e entrega? <span>+</span></summary><p>A forma de pagamento, a disponibilidade da data escolhida e eventual taxa de entrega são confirmadas diretamente no WhatsApp.</p></details></div></section>
+  <div class="cta-strip"><div class="shell"><div><span>✳ SABORES NOVOS TODA SEMANA</span><h2>Tem pizza para hoje?<br><em>Escolha a sua!</em></h2></div><a class="btn btn-cream" href="#cardapio">Montar meu pedido <span>↗</span></a></div></div>
  </main>
- <footer class="footer"><div class="shell"><div class="footer-top"><div><a href="#top" class="footer-logo">lenta<span>.</span></a><p>Pizza artesanal congelada.<br>O toque final é seu.</p></div><div><strong>EXPLORE</strong><a href="#cardapio">Cardápio</a><a href="#programacao">Programação</a><a href="#como-funciona">Como preparar</a></div><div><strong>CONTATO</strong><a id="footer-whatsapp" href="#" target="_blank" rel="noopener">WhatsApp ↗</a><span id="footer-city">Novo Hamburgo · RS</span></div></div><div class="footer-bottom"><span>© <span id="year"></span> LENTA — Marca fictícia para demonstração</span><span>Projeto demonstrativo por <a href="https://www.guaraagency.com.br" target="_blank" rel="noopener">Guará Agency ↗</a> · <a href="./admin.html">Painel administrativo</a></span></div></div></footer>
+ <footer class="footer"><div class="shell"><div class="footer-top"><div><a href="#top" class="footer-logo">Pronta <small>PIZZARIA</small></a><p>Pizza artesanal congelada.<br>O toque final é seu.</p></div><div><strong>EXPLORE</strong><a href="#cardapio">Cardápio</a><a href="#programacao">Programação</a><a href="#como-funciona">Como preparar</a></div><div><strong>CONTATO</strong><a id="footer-whatsapp" href="#" target="_blank" rel="noopener">WhatsApp ↗</a><span id="footer-city">Novo Hamburgo · RS</span></div></div><div class="footer-bottom"><span>© <span id="year"></span> Pronta Pizzaria — Marca fictícia para demonstração</span><span>Projeto demonstrativo por <a href="https://www.guaraagency.com.br" target="_blank" rel="noopener">Guará Agency ↗</a> · <a href="./admin.html">Painel administrativo</a></span></div></div></footer>
  <div id="cart-overlay" class="cart-overlay" hidden></div>
  <aside class="cart-drawer" id="cart-drawer" aria-label="Carrinho de compras" aria-modal="true" role="dialog" inert>
   <div class="drawer-header"><div><div class="eyebrow eyebrow-green">SEU PEDIDO</div><h2>Meu carrinho <span id="cart-title-count">(0)</span></h2></div><button id="close-cart" class="icon-button" aria-label="Fechar carrinho">×</button></div>
