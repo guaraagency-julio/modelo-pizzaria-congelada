@@ -160,6 +160,15 @@ function waHref(text){
  const phone=String(catalog.settings.whatsapp||SEED.settings.whatsapp).replace(/\D/g,"");
  return "https://wa.me/"+phone+(text?"?text="+encodeURIComponent(text):"");
 }
+function isMobileCheckout(){
+ const ua=navigator.userAgent||"";
+ return navigator.userAgentData?.mobile===true || /Android|iPhone|iPad|iPod/i.test(ua) ||
+        (/Macintosh/i.test(ua) && navigator.maxTouchPoints>1);
+}
+function waWebHref(message){
+ const phone=String(catalog.settings.whatsapp||SEED.settings.whatsapp).replace(/\D/g,"");
+ return "https://web.whatsapp.com/send?phone="+phone+"&text="+encodeURIComponent(message);
+}
 function buildMessage(form){
  const lines=[
   "Olá! Quero fazer uma encomenda de pizzas congeladas da "+(catalog.settings.brand||"Pronta Pizzaria")+".",
@@ -231,6 +240,22 @@ function bind(){
   const fallback=$("#checkout-whatsapp-fallback");
   const status=$("#checkout-status");
   if(!form.reportValidity())return;
+
+  // Em desktops, a guia precisa ser criada dentro do clique do usuário.
+  // Criá-la após o fetch pode bloquear a abertura pelo navegador.
+  const mobile=isMobileCheckout();
+  let desktopTab=null;
+  let openedDestination=false;
+  if(!mobile){
+   try{
+    desktopTab=window.open("about:blank","_blank");
+    if(desktopTab){
+     desktopTab.opener=null;
+     desktopTab.document.title="Abrindo WhatsApp Web | Pronta Pizzaria";
+     desktopTab.document.body.innerHTML='<main style="max-width:520px;margin:12vh auto;padding:24px;text-align:center;font:600 18px Arial,sans-serif;color:#503e33"><h1>Pronta Pizzaria</h1><p>Conferindo seu pedido antes de abrir o WhatsApp Web…</p></main>';
+    }
+   }catch{desktopTab=null;}
+  }
   fallback.hidden=true;
   fallback.removeAttribute("href");
   status.textContent="Conferindo disponibilidade dos sabores...";
@@ -283,18 +308,33 @@ function bind(){
     notify(status.textContent);
     return;
    }
-   const link=waHref(buildMessage(form));
-   // O link fica disponível para um segundo toque caso o sistema operacional
-   // ou o navegador não conclua o redirecionamento automaticamente.
+   const message=buildMessage(form);
+   const link=mobile?waHref(message):waWebHref(message);
    fallback.href=link;
+   fallback.target=mobile?"_self":"_blank";
+   fallback.rel="noopener noreferrer";
+   fallback.textContent=mobile?"↗ Abrir meu pedido no WhatsApp":"↗ Abrir meu pedido no WhatsApp Web";
    fallback.hidden=false;
-   status.textContent="Pedido preparado! Abrindo o WhatsApp… Se não abrir, toque no link abaixo.";
-   button.innerHTML='Abrindo WhatsApp <span>↗</span>';
-   window.location.assign(link);
+   if(mobile){
+    status.textContent="Pedido preparado! Abrindo o WhatsApp… Se não abrir, toque no link abaixo.";
+    openedDestination=true;
+    window.location.assign(link);
+   }else if(desktopTab && !desktopTab.closed){
+    desktopTab.location.replace(link);
+    desktopTab.focus();
+    openedDestination=true;
+    status.textContent="Pedido pronto! O WhatsApp Web abriu em outra guia. Se necessário, use o link abaixo.";
+   }else{
+    status.textContent="Pedido pronto! Clique abaixo para abrir o WhatsApp Web.";
+    notify(status.textContent);
+   }
   }catch(error){
    status.textContent=error?.message||"Não conseguimos preparar seu pedido. Tente novamente.";
    notify(status.textContent);
   }finally{
+   if(!openedDestination&&desktopTab&&!desktopTab.closed){
+    try{desktopTab.close();}catch{}
+   }
    button.disabled=false;
    button.innerHTML='Finalizar no WhatsApp <span>↗</span>';
   }
