@@ -25,6 +25,7 @@ const els = {
 let catalog = structuredClone(SEED);
 let selectedMonth = monthOfToday();
 let selectedWeek = currentWeek(new Date());
+let selectedDate = today();
 let cart = [];
 let cartPeriod = null;
 let toastTimer;
@@ -36,6 +37,15 @@ try {
 function saveCart(){ try { localStorage.setItem("lenta-cart-v1", JSON.stringify({items:cart,period:cartPeriod})); } catch {} }
 function product(id){return catalog.products.find((p)=>p.id===id && p.active !== false);}
 function weekProducts(month,week){return (catalog.schedules[month]?.[week]||[]).map(product).filter(Boolean);}
+function soldOut(id,date){return Array.isArray(catalog.stockOut?.[date])&&catalog.stockOut[date].includes(id);}
+function choiceDate(month,week) {
+ const r=rangeOf(month,week), earliest=r.start>today()?r.start:today();
+ return earliest<=r.end?earliest:r.end;
+}
+function dateValid(date,month,week) {
+ const r=rangeOf(month,week);
+ return /^\d{4}-\d{2}-\d{2}$/.test(date||"")&&date>=today()&&date>=r.start&&date<=r.end;
+}
 function isPast(month,week){return rangeOf(month,week).end < today();}
 function notify(message){els.toast.textContent=message;els.toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>els.toast.classList.remove("show"),3100);}
 function weekCaption(month,week){return "Semana "+(week+1)+" · "+rangeOf(month,week).label;}
@@ -44,6 +54,13 @@ function renderScheduleAndMenu(){
  const months=Object.keys(catalog.schedules).sort();
  if (!months.includes(selectedMonth)) selectedMonth=months.find(x=>x>=monthOfToday())||months.at(-1)||monthOfToday();
  els.month.innerHTML=months.map(m=>'<option value="'+escapeHtml(m)+'">'+escapeHtml(formatMonth(m))+'</option>').join("");
+ const weekRange=rangeOf(selectedMonth,selectedWeek);
+ if(!dateValid(selectedDate,selectedMonth,selectedWeek))selectedDate=choiceDate(selectedMonth,selectedWeek);
+ const shopDate=$("#shop-date");
+ shopDate.min=weekRange.start>today()?weekRange.start:today();
+ shopDate.max=weekRange.end;
+ shopDate.disabled=isPast(selectedMonth,selectedWeek);
+ shopDate.value=selectedDate;
  if(!months.includes(selectedMonth)) els.month.innerHTML='<option value="'+escapeHtml(selectedMonth)+'">'+escapeHtml(formatMonth(selectedMonth))+'</option>';
  els.month.value=selectedMonth;
  els.tabs.innerHTML=[0,1,2,3].map((i)=>{
@@ -55,9 +72,12 @@ function renderScheduleAndMenu(){
  const products=weekProducts(selectedMonth,selectedWeek);
  $("#no-products").hidden=products.length>0;
  const past=isPast(selectedMonth,selectedWeek);
+ const unavailable=products.filter(p=>soldOut(p.id,selectedDate)).length;
+ $("#shop-stock-note").textContent=past?"Semana encerrada":unavailable?unavailable+" de "+products.length+" sabores esgotados nesse dia":"Todos os sabores disponíveis nesse dia";
  els.grid.innerHTML=products.map(p=>{
   const image=validImage(p.image)||SEED.products[0].image;
-  return '<article class="product-card"><div class="product-photo"><img loading="lazy" src="'+escapeHtml(image)+'" alt="'+escapeHtml(p.name)+'">'+(p.tag?'<span class="product-badge">'+escapeHtml(p.tag)+'</span>':"")+'</div><div class="product-info"><div class="product-category">'+escapeHtml(p.category)+'</div><h3>'+escapeHtml(p.name)+'</h3><p>'+escapeHtml(p.description)+'</p><div class="product-card-bottom"><div class="product-price"><small>Unidade · produto congelado</small>'+formatMoney(p.price)+'</div><button class="add-button" data-add="'+escapeHtml(p.id)+'" aria-label="Adicionar '+escapeHtml(p.name)+'" '+(past?"disabled title='Semana encerrada'":"")+'>+</button></div></div></article>';
+  const unavailableToday=soldOut(p.id,selectedDate);
+  return '<article class="product-card"><div class="product-photo"><img loading="lazy" src="'+escapeHtml(image)+'" alt="'+escapeHtml(p.name)+'">'+(p.tag?'<span class="product-badge">'+escapeHtml(p.tag)+'</span>':"")+(unavailableToday?'<span class="stock-badge">ESGOTADO EM '+selectedDate.slice(8,10)+'/'+selectedDate.slice(5,7)+'</span>':"")+'</div><div class="product-info"><div class="product-category">'+escapeHtml(p.category)+'</div><h3>'+escapeHtml(p.name)+'</h3><p>'+escapeHtml(p.description)+'</p><div class="product-card-bottom"><div class="product-price"><small>Unidade · produto congelado</small>'+formatMoney(p.price)+'</div><button class="add-button" data-add="'+escapeHtml(p.id)+'" aria-label="Adicionar '+escapeHtml(p.name)+'" '+(past||unavailableToday?"disabled title='Indisponível nessa data'":"")+'>'+(unavailableToday?"×":"+")+'</button></div></div></article>';
  }).join("");
  els.grid.querySelectorAll("[data-add]").forEach(btn=>btn.addEventListener("click",()=>addItem(btn.dataset.add)));
  els.schedule.innerHTML=[0,1,2,3].map(i=>{
@@ -71,19 +91,27 @@ function renderScheduleAndMenu(){
 function addItem(id) {
  const item=product(id);if(!item) return notify("Esse sabor não está mais disponível.");
  if(isPast(selectedMonth,selectedWeek))return notify("A programação dessa semana já encerrou.");
+ if(!dateValid(selectedDate,selectedMonth,selectedWeek))return notify("Escolha uma data válida para a encomenda.");
+ if(soldOut(id,selectedDate))return notify("Esse sabor está esgotado para a data escolhida.");
  if(!weekProducts(selectedMonth,selectedWeek).some(p=>p.id===id))return notify("Esse sabor não está programado para a semana.");
  if(cart.length && (cartPeriod?.month !== selectedMonth || cartPeriod.week !== selectedWeek)){
   if(!confirm("Seu carrinho tem pizzas de outra semana. Deseja esvaziá-lo e começar um pedido para esta semana?"))return;
   cart=[];
  }
- cartPeriod={month:selectedMonth,week:selectedWeek};
+ if(cart.length && cartPeriod?.date && cartPeriod.date!==selectedDate){
+  const removed=cart.filter(x=>soldOut(x.id,selectedDate));
+  if(removed.length&&!confirm("Alguns sabores estão esgotados nessa data. Remover os indisponíveis do carrinho?"))return;
+  cart=cart.filter(x=>!soldOut(x.id,selectedDate));
+ }
+ cartPeriod={month:selectedMonth,week:selectedWeek,date:selectedDate};
  const found=cart.find(x=>x.id===id);if(found)found.qty=Math.min(50,found.qty+1);else cart.push({id,qty:1});
  saveCart();renderCart();notify(item.name+" adicionado ao carrinho."); 
 }
 function cleanCart(){
  if (!cartPeriod || !catalog.schedules[cartPeriod.month]){cart=[];cartPeriod=null;return;}
+ if(!dateValid(cartPeriod.date,cartPeriod.month,cartPeriod.week))cartPeriod.date=choiceDate(cartPeriod.month,cartPeriod.week);
  const allowed=weekProducts(cartPeriod.month,cartPeriod.week).map(p=>p.id);
- cart=cart.filter(x=>allowed.includes(x.id));
+ cart=cart.filter(x=>allowed.includes(x.id)&&!soldOut(x.id,cartPeriod.date));
  if(!cart.length)cartPeriod=null;
 }
 function renderCart(){
@@ -111,7 +139,8 @@ function renderCart(){
   const input=$("#c-date");
   input.min=r.start>today()?r.start:today();
   input.max=r.end;
-  if(!input.value||input.value<input.min||input.value>input.max)input.value=input.min;
+  input.value=cartPeriod.date;
+  input.disabled=r.end<today();
  }
 }
 function openCart(){
@@ -155,16 +184,57 @@ function buildMessage(form){
 function bind(){
  $("#year").textContent=new Date().getFullYear();
  els.month.addEventListener("change",()=>setWeek(els.month.value,0));
+ $("#shop-date").addEventListener("change",()=>{
+  const date=$("#shop-date").value;
+  if(!dateValid(date,selectedMonth,selectedWeek)){renderScheduleAndMenu();return notify("Escolha uma data dentro da semana selecionada.");}
+  const prev=selectedDate;
+  if(cart.length&&cartPeriod?.month===selectedMonth&&cartPeriod.week===selectedWeek) {
+   const missing=cart.filter(x=>soldOut(x.id,date));
+   if(missing.length&&!confirm("Alguns sabores do seu carrinho estão esgotados em "+date.split("-").reverse().join("/")+". Remover esses sabores?")){
+    $("#shop-date").value=prev;return;
+   }
+   cart=cart.filter(x=>!soldOut(x.id,date));
+   if(cart.length)cartPeriod.date=date;else cartPeriod=null;
+   saveCart();
+  }
+  selectedDate=date;renderScheduleAndMenu();renderCart();
+ });
  $("#open-cart").addEventListener("click",openCart);
  $("#close-cart").addEventListener("click",closeCart);
  $("#empty-shop").addEventListener("click",()=>{closeCart();$("#cardapio").scrollIntoView({behavior:"smooth"});});
  els.overlay.addEventListener("click",closeCart);
  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!els.overlay.hidden)closeCart();});
  $("#c-method").addEventListener("change",updateDelivery);
- els.form.addEventListener("submit",e=>{
-  e.preventDefault();cleanCart();if(!cart.length||!cartPeriod)return notify("Adicione uma pizza ao carrinho.");
+ $("#c-date").addEventListener("change",()=>{
+  if(!cartPeriod)return;
+  const date=$("#c-date").value;
+  if(!dateValid(date,cartPeriod.month,cartPeriod.week)){
+   $("#c-date").value=cartPeriod.date;return notify("Data fora da semana programada.");
+  }
+  const removed=cart.filter(x=>soldOut(x.id,date));
+  if(removed.length&&!confirm("Alguns sabores acabaram nessa data. Deseja removê-los do pedido?")){
+   $("#c-date").value=cartPeriod.date;return;
+  }
+  cart=cart.filter(x=>!soldOut(x.id,date));
+  if(cart.length)cartPeriod.date=date;else cartPeriod=null;
+  selectedDate=date;
+  saveCart();renderCart();
+  if(selectedMonth===cartPeriod?.month&&selectedWeek===cartPeriod?.week)renderScheduleAndMenu();
+  if(removed.length)notify("Sabores indisponíveis foram retirados do carrinho.");
+ });
+ els.form.addEventListener("submit",async e=>{
+  e.preventDefault();
+  try{
+   const response=await fetch("/api/catalog",{cache:"no-store"});
+   if(response.ok){const latest=await response.json();if(Array.isArray(latest.products)&&latest.schedules)catalog=latest;}
+  }catch{}
+  const before=cart.length;
+  cleanCart();saveCart();renderCart();renderScheduleAndMenu();
+  if(cart.length!==before)return notify("O estoque mudou. Confira o carrinho atualizado antes de finalizar.");
+  if(!cart.length||!cartPeriod)return notify("Adicione uma pizza ao carrinho.");
   const date=$("#c-date").value,r=rangeOf(cartPeriod.month,cartPeriod.week);
   if(date<today()||date<r.start||date>r.end)return notify("Escolha uma data válida dentro da semana programada.");
+  if(cart.some(x=>soldOut(x.id,date)))return notify("Um sabor do carrinho está esgotado para essa data.");
   const form=e.currentTarget;
   if(!form.reportValidity())return;
   const number=$("#c-phone").value.replace(/\D/g,"");
