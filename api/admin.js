@@ -11,7 +11,7 @@ const equal=(a,b)=> {
  return timingSafeEqual(x,y);
 };
 const signature=(expiry,agent)=>createHmac("sha256",secret()).update(expiry+"|"+agent).digest("hex");
-function loggedIn(req){
+export function loggedIn(req){
  if(!configured())return false;
  const header=req.headers.cookie||"";
  const token=header.split(";").map(x=>x.trim()).find(x=>x.startsWith(COOKIE+"="))?.split("=")[1];
@@ -24,7 +24,7 @@ function cookie(req){
  const exp=String(Date.now()+MAX_AGE*1000);
  return COOKIE+"="+exp+"."+signature(exp,req.headers["user-agent"]||"")+"; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age="+MAX_AGE;
 }
-function allowOrigin(req){
+export function allowOrigin(req){
  if(!req.headers.origin)return true;
  try {return new URL(req.headers.origin).host===req.headers.host;}catch{return false;}
 }
