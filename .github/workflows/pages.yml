@@ -31,6 +31,8 @@ jobs:
           node --check api/catalog.js
           node --check api/admin.js
           node --check lib/storage.js
+      - name: Testar persistência e concorrência
+        run: node --experimental-vm-modules --test tests/storage.test.mjs
       - name: Preparar arquivos públicos
         run: |
           mkdir -p _site/shared
