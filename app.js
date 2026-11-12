@@ -141,7 +141,7 @@ function buildMessage(form){
  for (const entry of cart){const p=product(entry.id);if(p)lines.push(entry.qty+"x "+p.name+" — "+formatMoney(p.price*entry.qty));}
  const total=cart.reduce((s,x)=>s+(product(x.id)?.price||0)*x.qty,0);
  lines.push("","*Subtotal: "+formatMoney(total)+"*","","👤 *DADOS DO CLIENTE*",
-  "Nome: "+form.name.value.trim(),"WhatsApp: "+form.phone.value.trim(),
+  "Nome: "+$("#c-name").value.trim(),"WhatsApp: "+$("#c-phone").value.trim(),
   "Modalidade: "+$("#c-method").value,
   $("#c-method").value==="Entrega"?"Endereço: "+$("#c-address").value.trim():"",
   $("#c-method").value==="Entrega"&&$("#c-complement").value.trim()?"Referência: "+$("#c-complement").value.trim():"",
